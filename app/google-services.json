@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "584844579552",
+    "firebase_url": "https://chat-app-2f9cc.firebaseio.com",
+    "project_id": "chat-app-2f9cc",
+    "storage_bucket": "chat-app-2f9cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584844579552:android:9fbf1dddce176c11b17685",
+        "android_client_info": {
+          "package_name": "com.dimits.dimitschat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584844579552-g6b45mpqgr0nruv9uuv83o2f3klf7f85.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dimits.dimitschat",
+            "certificate_hash": "addf814a833151b5c80fe50d482773efbca90818"
+          }
+        },
+        {
+          "client_id": "584844579552-fhj1imr359fpom699kik5orbdfd11vqe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4MSgDpP-rELichXbQte0SlRZfBzRFeig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "584844579552-fhj1imr359fpom699kik5orbdfd11vqe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

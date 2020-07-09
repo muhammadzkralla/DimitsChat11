@@ -1,17 +1,26 @@
 package com.dimits.dimitschat.model;
 
 public class UserModel {
-    private String uid,name,phone,banned;
+    private String uid,name,phone,banned,img;
 
 
     public UserModel() {
     }
 
-    public UserModel(String uid, String name,String phone,String banned) {
+    public UserModel(String uid, String name,String phone,String banned,String img) {
         this.uid = uid;
         this.name = name;
         this.phone = phone;
         this.banned = banned;
+        this.img = img;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getUid() {

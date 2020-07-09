@@ -16,14 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
-
-
-
-
-
-
-
     <EditText
         android:id="@+id/et_phone"
         android:hint="Phone number"
@@ -31,6 +23,12 @@
         android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="166dp"
+        android:src="@drawable/ic_person_black_24dp" />
 
 
 

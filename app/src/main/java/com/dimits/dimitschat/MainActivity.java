@@ -139,18 +139,19 @@ public class MainActivity extends AppCompatActivity {
         //Find the Views
         EditText etName =  itemView.findViewById(R.id.et_name);
         EditText etPhone = itemView.findViewById(R.id.et_phone);
-        ImageView img = itemView.findViewById(R.id.img);
+        //ImageView img = itemView.findViewById(R.id.img);
         //set Data
         etPhone.setText(user.getPhoneNumber());
-        Glide.with(this).load(R.drawable.ic_person_black_24dp).into(img);
+        //Glide.with(this).load(R.drawable.ic_person_black_24dp).into(img);
 
-        //Set Event
+        /*Set Event
         img.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
         });
+        */
         //Action
         builder.setNegativeButton("CANCEL", (dialogInterface, i) -> {
             dialogInterface.dismiss();
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (imageUri != null) {
+            /*if (imageUri != null) {
 
                 // firebase Storage upload image
                 dialog.setMessage("Uploading...");
@@ -193,9 +194,12 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 Glide.with(this).load(R.drawable.common_full_open_on_phone).into(img);
             }
+
+             */
             //Fill the DataBase
             userModel.setUid(user.getUid());
             userModel.setBanned("0");
+            userModel.setImg("Default");
             userModel.setName(etName.getText().toString());
             userModel.setPhone(etPhone.getText().toString());
             userRef.child(user.getUid()).setValue(userModel)
@@ -237,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == APP_REQUEST_CODE)
         {
+
             IdpResponse response = IdpResponse.fromResultIntent(data);
             if(resultCode == RESULT_OK)
             {

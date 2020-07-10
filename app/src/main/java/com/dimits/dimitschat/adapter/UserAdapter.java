@@ -40,6 +40,10 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.MyViewHodler>
     }
 
 
+    public List<UserModel> getListUser() {
+        return userModels;
+    }
+
     public class MyViewHodler extends RecyclerView.ViewHolder {
         TextView username;
         public MyViewHodler(@NonNull View itemView) {

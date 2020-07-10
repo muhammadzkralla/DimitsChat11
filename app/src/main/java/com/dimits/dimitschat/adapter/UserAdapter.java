@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.dimits.dimitschat.R;
 import com.dimits.dimitschat.model.UserModel;
 
@@ -32,6 +34,9 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.MyViewHodler>
     @Override
     public void onBindViewHolder(@NonNull MyViewHodler holder, int position) {
         holder.username.setText(new StringBuffer(userModels.get(position).getName()));
+        holder.userphon.setText(new StringBuffer(userModels.get(position).getPhone()));
+        Glide.with(context).load(userModels.get(position).getImg()).into(holder.userimage);
+
     }
 
     @Override
@@ -46,9 +51,13 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.MyViewHodler>
 
     public class MyViewHodler extends RecyclerView.ViewHolder {
         TextView username;
+        ImageView userimage;
+        TextView userphon;
         public MyViewHodler(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.user_name);
+            userimage = itemView.findViewById(R.id.user_image);
+            userphon = itemView.findViewById(R.id.user_phon);
         }
     }
 }

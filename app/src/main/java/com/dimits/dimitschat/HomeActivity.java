@@ -40,14 +40,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import dmax.dialog.SpotsDialog;
+
 public class HomeActivity extends AppCompatActivity {
     TextView title;
     ImageView user_img;
     private static final int PICK_IMAGE_REQUEST = 1234;
     private Uri imageUri = null;
-    AlertDialog dialog;
+    AlertDialog UploadDialog;
     FirebaseStorage storage;
     StorageReference storageReference;
+    ImageView btn_image;
 
 
     @Override
@@ -58,6 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         storageReference = storage.getReference();
         title = (TextView)findViewById(R.id.title);
         user_img = (ImageView)findViewById(R.id.user_img);
+        UploadDialog = new SpotsDialog.Builder().setContext(this).setCancelable(false).build();
         if (Common.currentUser.getImg() == "Default"){
             Glide.with(this).load(R.drawable.ic_person_black_24dp).into(user_img);
         }else{
@@ -66,41 +70,7 @@ public class HomeActivity extends AppCompatActivity {
         user_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-                Map<String, Object> updateDate = new HashMap<>();
-                if (imageUri != null) {
-
-                    // firebase Storage upload image
-                    dialog.setMessage("Uploading...");
-                    dialog.show();
-
-                    String unique_name = UUID.randomUUID().toString();
-                    StorageReference imageFolder = storageReference.child("images/" + unique_name);
-
-                    imageFolder.putFile(imageUri)
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    dialog.dismiss();
-                                    Toast.makeText(HomeActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnCompleteListener(task -> {
-                        dialog.dismiss();
-                        imageFolder.getDownloadUrl().addOnSuccessListener(uri -> {
-                            updateDate.put("img", uri.toString());
-                            updateUser(updateDate);
-                        });
-                    }).addOnProgressListener(taskSnapshot -> {
-                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                        dialog.setMessage(new StringBuilder("Uploading: ").append(progress).append("%"));
-                    });
-                } else {
-                    updateUser(updateDate);
-                }
-
+                showImageDialog();
             }
         });
         title.setText(Common.currentUser.getName());
@@ -117,6 +87,66 @@ public class HomeActivity extends AppCompatActivity {
                 signOut();
             }
         });
+    }
+
+    private void showImageDialog() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        builder.setTitle("Update");
+        builder.setMessage("Choose your Image");
+
+
+        View itemView = LayoutInflater.from(this).inflate(R.layout.details_dailog, null);
+        btn_image = (ImageView) itemView.findViewById(R.id.btn_image);
+        Glide.with(this).load(R.drawable.ic_person_black_24dp).into(btn_image);
+        btn_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
+            }
+        });
+        builder.setNegativeButton("CANCEL", (dialogInterface, which) -> {
+            dialogInterface.dismiss();
+        }).setPositiveButton("OK", (dialogInterface, which) -> {
+            Map<String, Object> updateDate = new HashMap<>();
+            if (imageUri != null) {
+
+                // firebase Storage upload image
+                UploadDialog.setMessage("Uploading...");
+                UploadDialog.show();
+
+                String unique_name = UUID.randomUUID().toString();
+                StorageReference imageFolder = storageReference.child("images/" + unique_name);
+
+                imageFolder.putFile(imageUri)
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                UploadDialog.dismiss();
+                                Toast.makeText(HomeActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnCompleteListener(task -> {
+                    UploadDialog.dismiss();
+                    imageFolder.getDownloadUrl().addOnSuccessListener(uri -> {
+                        updateDate.put("img", uri.toString());
+                        updateUser(updateDate);
+                    });
+                }).addOnProgressListener(taskSnapshot -> {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                    UploadDialog.setMessage(new StringBuilder("Uploading: ").append(progress).append("%"));
+                });
+            } else {
+                updateUser(updateDate);
+            }
+        });
+
+
+        builder.setView(itemView);
+        androidx.appcompat.app.AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void updateUser(Map<String, Object> updateDate) {
@@ -167,7 +197,7 @@ public class HomeActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
             if (data != null && data.getData() != null) {
                 imageUri = data.getData();
-                user_img.setImageURI(imageUri);
+                btn_image.setImageURI(imageUri);
             }
         }
     }

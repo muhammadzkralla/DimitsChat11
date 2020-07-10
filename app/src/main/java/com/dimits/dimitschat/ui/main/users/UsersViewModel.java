@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsersViewModel extends ViewModel implements IUserCallbackListener {
-    private MutableLiveData<List<UserModel>> userMutableLiveData;
-    private MutableLiveData<String> messageError;
+    private MutableLiveData<List<UserModel>> userMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> messageError = new MutableLiveData<>();
     private IUserCallbackListener iUserCallbackListener;
 
     public UsersViewModel(){
@@ -27,8 +27,6 @@ public class UsersViewModel extends ViewModel implements IUserCallbackListener {
 
     public MutableLiveData<List<UserModel>> getUserList() {
         if(userMutableLiveData == null) {
-            userMutableLiveData = new MutableLiveData<>();
-            messageError = new MutableLiveData<>();
             loadUsers();
         }
         return userMutableLiveData;

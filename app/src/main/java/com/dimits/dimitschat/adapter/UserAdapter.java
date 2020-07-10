@@ -16,17 +16,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.MyViewHodler> {
-    private List<UserModel> userModels;
+    private List<UserModel> userModels = new ArrayList<>();
     Context context;
     public UserAdapter(Context context, List<UserModel> userModels) {
         this.context =context;
-        this.userModels= (ArrayList<UserModel>) userModels;
+        this.userModels= userModels;
     }
 
     @NonNull
     @Override
     public MyViewHodler onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHodler(LayoutInflater.from(parent.getContext()).inflate(R.layout.users_fragment,parent,false));
+        return new MyViewHodler(LayoutInflater.from(parent.getContext()).inflate(R.layout.user_list,parent,false));
     }
 
     @Override
@@ -39,10 +39,6 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.MyViewHodler>
         return userModels.size();
     }
 
-    public void setUserName(ArrayList<UserModel> userName){
-        this.userModels = userName;
-        notifyDataSetChanged();
-    }
 
     public class MyViewHodler extends RecyclerView.ViewHolder {
         TextView username;

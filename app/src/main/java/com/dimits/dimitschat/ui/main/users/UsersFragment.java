@@ -22,37 +22,36 @@ import com.dimits.dimitschat.model.UserModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class UsersFragment extends Fragment {
 
     private UsersViewModel usersViewModel;
+    private List<UserModel> userModelsList;
     RecyclerView recyclerView;
-    UserAdapter userAdapter;
+    UserAdapter adapter;
+    Unbinder unbinder;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root =  inflater.inflate(R.layout.users_fragment, container, false);
-
+        recyclerView = (RecyclerView)root.findViewById(R.id.recycler_user);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        unbinder = ButterKnife.bind(this,root);
         usersViewModel = ViewModelProviders.of(this).get(UsersViewModel.class);
 
-        usersViewModel.getMessageError().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                Toast.makeText(getContext(),""+s,Toast.LENGTH_SHORT).show();
-            }
+        usersViewModel.getMessageError().observe(getViewLifecycleOwner(), s
+                -> Toast.makeText(getContext(),""+s,Toast.LENGTH_SHORT).show());
+
+
+        usersViewModel.getUserList().observe(getViewLifecycleOwner(), userModels -> {
+            adapter = new UserAdapter(getContext(),userModels);
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         });
-
-
-        usersViewModel.getUserList().observe(this, new Observer<List<UserModel>>() {
-            @Override
-            public void onChanged(List<UserModel> userModels) {
-                userAdapter=new UserAdapter(getContext(),userModels);
-                recyclerView.setAdapter(userAdapter);
-            }
-        });
-
-        recyclerView = (RecyclerView)root.findViewById(R.id.recycler_user);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return root;
     }

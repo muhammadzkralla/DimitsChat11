@@ -43,6 +43,7 @@ import java.util.UUID;
 import dmax.dialog.SpotsDialog;
 
 public class HomeActivity extends AppCompatActivity {
+    //initialize variables
     TextView title;
     ImageView user_img;
     private static final int PICK_IMAGE_REQUEST = 1234;
@@ -57,22 +58,28 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        //assign the variables
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         title = (TextView)findViewById(R.id.title);
         user_img = (ImageView)findViewById(R.id.user_img);
         UploadDialog = new SpotsDialog.Builder().setContext(this).setCancelable(false).build();
+        //check if the user have an image or not
         if (Common.currentUser.getImg() == "Default"){
+            //if not put a default image for them
             Glide.with(this).load(R.drawable.ic_person_black_24dp).into(user_img);
         }else{
+            //if he have , put his image
             Glide.with(this).load(Common.currentUser.getImg()).into(user_img);
         }
+        //Click listener for the profile image
         user_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImageDialog();
             }
         });
+        //Assigning some variables
         title.setText(Common.currentUser.getName());
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
@@ -84,6 +91,7 @@ public class HomeActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //start signing out the user
                 signOut();
             }
         });
@@ -94,13 +102,15 @@ public class HomeActivity extends AppCompatActivity {
         builder.setTitle("Update");
         builder.setMessage("Choose your Image");
 
-
+        //inflate the view
         View itemView = LayoutInflater.from(this).inflate(R.layout.details_dailog, null);
         btn_image = (ImageView) itemView.findViewById(R.id.btn_image);
         Glide.with(this).load(R.drawable.ic_person_black_24dp).into(btn_image);
+        //image onClickListener
         btn_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //open Images in the device
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -111,10 +121,11 @@ public class HomeActivity extends AppCompatActivity {
         builder.setNegativeButton("CANCEL", (dialogInterface, which) -> {
             dialogInterface.dismiss();
         }).setPositiveButton("OK", (dialogInterface, which) -> {
+            //initialize new user object to update the old one
             Map<String, Object> updateDate = new HashMap<>();
-            if (imageUri != null) {
 
-                // firebase Storage upload image
+            if (imageUri != null) {
+                //if the user selected an image
                 UploadDialog.setMessage("Uploading...");
                 UploadDialog.show();
 
@@ -131,7 +142,9 @@ public class HomeActivity extends AppCompatActivity {
                         }).addOnCompleteListener(task -> {
                     UploadDialog.dismiss();
                     imageFolder.getDownloadUrl().addOnSuccessListener(uri -> {
+                        //start changing img item in the object
                         updateDate.put("img", uri.toString());
+                        //update user Data
                         updateUser(updateDate);
                     });
                 }).addOnProgressListener(taskSnapshot -> {
@@ -139,10 +152,10 @@ public class HomeActivity extends AppCompatActivity {
                     UploadDialog.setMessage(new StringBuilder("Uploading: ").append(progress).append("%"));
                 });
             } else {
+                //update User Data with nothing new
                 updateUser(updateDate);
             }
         });
-
 
         builder.setView(itemView);
         androidx.appcompat.app.AlertDialog dialog = builder.create();
@@ -150,6 +163,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void updateUser(Map<String, Object> updateDate) {
+        //Push differences to the DataBase
         FirebaseDatabase.getInstance()
                 .getReference("Users")
                 .child(Common.currentUser.getUid())
@@ -177,11 +191,11 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-
+                        //make the current user equals null
                         Common.currentUser = null;
-
+                        //start sign out action
                         FirebaseAuth.getInstance().signOut();
-
+                        //Go to Sign in / Sign up Activity
                         Intent intent = new Intent(HomeActivity.this,MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);

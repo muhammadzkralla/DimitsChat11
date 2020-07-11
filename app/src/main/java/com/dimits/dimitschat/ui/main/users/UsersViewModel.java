@@ -41,6 +41,7 @@ public class UsersViewModel extends ViewModel implements IUserCallbackListener {
         users.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                tempList.clear();
                 for (DataSnapshot userSnapShot:dataSnapshot.getChildren()){
                     UserModel userModel = userSnapShot.getValue(UserModel.class);
                     userModel.setUid(userSnapShot.getKey());

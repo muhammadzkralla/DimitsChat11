@@ -1,16 +1,19 @@
 package com.dimits.dimitschat.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.dimits.dimitschat.MessagesActivity;
 import com.dimits.dimitschat.R;
 import com.dimits.dimitschat.model.UserModel;
 
@@ -36,6 +39,16 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.MyViewHodler>
         holder.username.setText(new StringBuffer(userModels.get(position).getName()));
         holder.userphon.setText(new StringBuffer(userModels.get(position).getPhone()));
         Glide.with(context).load(userModels.get(position).getImg()).into(holder.userimage);
+        //ClickListener for each item in the adapter with putting extra the uid of the user clicked
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MessagesActivity.class);
+                intent.putExtra("second_user",userModels.get(position).getUid());
+                context.startActivity(intent);
+                Toast.makeText(context, "" + userModels.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

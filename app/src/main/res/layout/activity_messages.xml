@@ -15,9 +15,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:src="@drawable/ic_person_black_24dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
@@ -28,6 +28,7 @@
                 android:id="@+id/sec_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
                 android:gravity="center"
                 android:minHeight="?actionBarSize"
                 android:padding="@dimen/appbar_padding"

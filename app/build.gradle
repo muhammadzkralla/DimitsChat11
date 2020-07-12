@@ -59,5 +59,7 @@ dependencies {
     //butter
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    //Circular ImageView
+    implementation 'de.hdodenhof:circleimageview:3.0.2'
 }
 apply plugin: 'com.google.gms.google-services'

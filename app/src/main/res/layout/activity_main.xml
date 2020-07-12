@@ -26,7 +26,7 @@
         android:layout_below="@+id/main"
         android:layout_centerHorizontal="true"
         android:fontFamily="serif"
-        android:text="Hi Devs!"
+        android:text="Made by devs for devs !"
         android:textSize="24sp"
         android:textStyle="italic" />
 

@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.dimits.dimitschat.R;
 import com.dimits.dimitschat.ui.main.chats.ChatsFragment;
+import com.dimits.dimitschat.ui.main.global.GlobalFragment;
 import com.dimits.dimitschat.ui.main.tabstuff.PlaceholderFragment;
 import com.dimits.dimitschat.ui.main.users.UsersFragment;
 
@@ -20,7 +21,7 @@ import com.dimits.dimitschat.ui.main.users.UsersFragment;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2,R.string.tab_text_3};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -38,6 +39,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 fragment = new UsersFragment();
                 break;
+            case 2:
+                fragment = new GlobalFragment();
+                break;
         }
         return fragment;
     }
@@ -51,6 +55,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 2 total pages.
-        return 2;
+        return 3;
     }
 }

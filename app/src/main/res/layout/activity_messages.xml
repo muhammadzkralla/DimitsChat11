@@ -8,6 +8,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
+        android:id="@+id/app_bar"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -37,8 +38,15 @@
         </RelativeLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/app_bar"
+        android:layout_above="@+id/relative"
+        android:id="@+id/recycler_messages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <RelativeLayout
+        android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">

@@ -3,4 +3,5 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="tab_text_1">Chats</string>
     <string name="tab_text_2">Users</string>
+    <string name="tab_text_3">Global</string>
 </resources>

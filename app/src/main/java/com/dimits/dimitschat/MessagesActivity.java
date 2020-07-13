@@ -2,8 +2,6 @@ package com.dimits.dimitschat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,9 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.dimits.dimitschat.adapter.MessagesAdapter;
 import com.dimits.dimitschat.common.Common;
-import com.dimits.dimitschat.model.ChatModel;
 import com.dimits.dimitschat.model.UserModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,9 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MessagesActivity extends AppCompatActivity {
@@ -42,10 +36,6 @@ public class MessagesActivity extends AppCompatActivity {
     String RECEIVER;
     String MESSAGE;
     private DatabaseReference ref;
-    private DatabaseReference reference;
-    MessagesAdapter messagesAdapter;
-    List<ChatModel> mChat;
-    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +50,11 @@ public class MessagesActivity extends AppCompatActivity {
         //initialize the receiver
         RECEIVER = SECOND_USER_ID;
         //assigning variables
-        recyclerView = findViewById(R.id.recycler_messages);
         sec_user = (TextView)findViewById(R.id.sec_user);
         sec_img = (ImageView)findViewById(R.id.sec_img);
         edt_message = (EditText)findViewById(R.id.edt_message);
         send_btn = (ImageView)findViewById(R.id.send_btn);
-        //set send message click listener and some assigning
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        linearLayoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        //set send message click listener
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +67,7 @@ public class MessagesActivity extends AppCompatActivity {
             }
         });
         //getting started to get the second user's data form the firebase
+        ref = FirebaseDatabase.getInstance().getReference("Users").child(SECOND_USER_ID);
         downloadData();
 
     }
@@ -106,7 +92,6 @@ public class MessagesActivity extends AppCompatActivity {
 
     private void downloadData() {
         //Getting the data of the second user
-        ref = FirebaseDatabase.getInstance().getReference("Users").child(RECEIVER);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -118,7 +103,6 @@ public class MessagesActivity extends AppCompatActivity {
                     else
                         Glide.with(MessagesActivity.this).load(secondUser.getImg()).into(sec_img);
                 }
-                downloadMessages(Common.currentUser.getUid(),RECEIVER,secondUser.getImg());
             }
 
             @Override
@@ -128,30 +112,4 @@ public class MessagesActivity extends AppCompatActivity {
         });
 
     }
-    private void downloadMessages(String myId, String userId, String Imageurl){
-        mChat = new ArrayList<>();
-        reference = FirebaseDatabase.getInstance().getReference("Chats");
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mChat.clear();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                    ChatModel chat = dataSnapshot1.getValue(ChatModel.class);
-                    if (chat.getReceiver().equals(myId) && chat.getSender().equals(userId) ||
-                            chat.getSender().equals(myId) && chat.getReceiver().equals(userId)){
-                        mChat.add(chat);
-                    }
-                    messagesAdapter = new MessagesAdapter(mChat,MessagesActivity.this,Imageurl);
-                    recyclerView.setAdapter(messagesAdapter);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
 }

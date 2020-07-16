@@ -3,15 +3,15 @@ package com.dimits.dimitschat.model;
 public class GlobalChatModel {
     private String message;
     private String sender;
-    private String receiver;
+    private String img;
 
     public GlobalChatModel() {
     }
 
-    public GlobalChatModel(String message, String sender, String receiver) {
+    public GlobalChatModel(String message, String sender, String img) {
         this.message = message;
         this.sender = sender;
-        this.receiver = receiver;
+        this.img = img;
     }
 
     public String getMessage() {
@@ -30,11 +30,11 @@ public class GlobalChatModel {
         this.sender = sender;
     }
 
-    public String getReceiver() {
-        return receiver;
+    public String getImg() {
+        return img;
     }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
+    public void setImg(String img) {
+        this.img = img;
     }
 }

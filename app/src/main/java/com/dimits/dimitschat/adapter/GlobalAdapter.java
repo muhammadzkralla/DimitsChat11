@@ -26,13 +26,12 @@ public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHod
     public static final int MSG_TYPE_RIGHT = 1;
     private List<GlobalChatModel> chatModels = new ArrayList<>();
     Context context;
-    private String imageurl;
+
     UserModel currentUser;
 
-    public GlobalAdapter(List<GlobalChatModel> chatModels, Context context, String imageurl) {
+    public GlobalAdapter(List<GlobalChatModel> chatModels, Context context) {
         this.chatModels = chatModels;
         this.context = context;
-        this.imageurl = imageurl;
     }
 
 
@@ -48,13 +47,10 @@ public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHod
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHodler holder, int position) {
-        GlobalChatModel chatModel = chatModels.get(position);
-        holder.txt_message.setText(chatModel.getMessage());
-        if (imageurl == "Default"){
-            Glide.with(context).load(R.drawable.ic_person_black_24dp).into(holder.receiver_img);
-        }else{
-            Glide.with(context).load(imageurl).into(holder.receiver_img);
-        }
+        holder.txt_message.setText(chatModels.get(position).getMessage());
+        //put every single image in the chat item for its sender
+        Glide.with(context).load(chatModels.get(position).getImg()).into(holder.receiver_img);
+
     }
 
     @Override

@@ -73,21 +73,23 @@ public class globalActivity extends AppCompatActivity {
                 //getting the message
                 MESSAGE = edt_message.getText().toString();
                 //send the message
-                sendMessage(SENDER,RECEIVER,MESSAGE);
+                sendMessage(SENDER,Common.currentUser.getImg(),MESSAGE);
                 //reset the edit text
                 edt_message.setText("");
             }
         });
         //getting started to get the second user's data form the firebase
-        downloadData();
+        downloadMessages();
 
     }
 
-    private void sendMessage(String sender,String receiver,String message) {
+
+
+    private void sendMessage(String sender,String image,String message) {
         //initializing the Message object
         Map<String, Object> messageData = new HashMap<>();
         messageData.put("sender", sender);
-        messageData.put("receiver", receiver);
+        messageData.put("img", image);
         messageData.put("message", message);
         //push the message object to the Database
         submitMessageToFireBase(messageData);
@@ -100,45 +102,22 @@ public class globalActivity extends AppCompatActivity {
         chatRef.child("GlobalChats").push().setValue(message);
 
     }
-
-    private void downloadData() {
-        //Getting the data of the second user
-        ref = FirebaseDatabase.getInstance().getReference("Users");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dataSnapshot4 : dataSnapshot.getChildren()) {
-                    otherUsers = dataSnapshot4.getValue(UserModel.class);
-
-                    //sec_user.setText(secondUser.getName());
-                    /*if (otherUsers.getImg() == "Default")
-                        Glide.with(globalActivity.this).load(R.drawable.ic_person_black_24dp).into(sec_img);
-                    else
-                        Glide.with(globalActivity.this).load(otherUsers.getImg()).into(sec_img);*/
-                }
-                downloadMessages(Common.currentUser.getUid(),RECEIVER,otherUsers.getImg());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-    private void downloadMessages(String myId, String userId, String Imageurl){
+    private void downloadMessages() {
         mChat = new ArrayList<>();
-        reference = FirebaseDatabase.getInstance().getReference("GlobalChats");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("GlobalChats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mChat.clear();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()){
-                    GlobalChatModel  chat = dataSnapshot1.getValue(GlobalChatModel.class);
-                        mChat.add(chat);
-
-                    messagesAdapter = new GlobalAdapter(mChat,globalActivity.this,Imageurl);
-                    recyclerView.setAdapter(messagesAdapter);
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    GlobalChatModel globalChatModel = dataSnapshot1.getValue(GlobalChatModel.class);
+                    mChat.add(globalChatModel);
+                    //for each single chat item in the list
+                    for (GlobalChatModel singleChat : mChat){
+                        //update the adapter with the coming data
+                        messagesAdapter = new GlobalAdapter(mChat,globalActivity.this);
+                        recyclerView.setAdapter(messagesAdapter);
+                    }
                 }
             }
 
@@ -147,7 +126,6 @@ public class globalActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
 }

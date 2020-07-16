@@ -5,10 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_global_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/relative"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Global Fragment !" />
+        android:layout_alignParentBottom="true">
+        <EditText
+            android:id="@+id/edt_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/send_btn"
+            android:hint="Type your message..."/>
+
+        <ImageView
+            android:layout_centerInParent="true"
+            android:id="@+id/send_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_send_black_24dp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -38,7 +38,12 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.MyViewHodler>
     public void onBindViewHolder(@NonNull MyViewHodler holder, int position) {
         holder.username.setText(new StringBuffer(userModels.get(position).getName()));
         holder.userphon.setText(new StringBuffer(userModels.get(position).getPhone()));
-        Glide.with(context).load(userModels.get(position).getImg()).into(holder.userimage);
+        if (userModels.get(position).getImg().equals("Default")){
+            Glide.with(context).load(R.drawable.ic_person_black_24dp).into(holder.userimage);
+        }else{
+            Glide.with(context).load(userModels.get(position).getImg()).into(holder.userimage);
+        }
+
         //ClickListener for each item in the adapter with putting extra the uid of the user clicked
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

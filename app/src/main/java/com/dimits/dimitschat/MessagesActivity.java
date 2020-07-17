@@ -113,7 +113,7 @@ public class MessagesActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     secondUser = dataSnapshot.getValue(UserModel.class);
                     sec_user.setText(secondUser.getName());
-                    if (secondUser.getImg() == "Default")
+                    if (secondUser.getImg().equals("Default"))
                         Glide.with(MessagesActivity.this).load(R.drawable.ic_person_black_24dp).into(sec_img);
                     else
                         Glide.with(MessagesActivity.this).load(secondUser.getImg()).into(sec_img);

@@ -49,7 +49,10 @@ public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHod
     public void onBindViewHolder(@NonNull MyViewHodler holder, int position) {
         holder.txt_message.setText(chatModels.get(position).getMessage());
         //put every single image in the chat item for its sender
-        Glide.with(context).load(chatModels.get(position).getImg()).into(holder.receiver_img);
+        if (chatModels.get(position).getImg().equals("Default"))
+            Glide.with(context).load(R.drawable.ic_person_black_24dp).into(holder.receiver_img);
+        else
+            Glide.with(context).load(chatModels.get(position).getImg()).into(holder.receiver_img);
 
     }
 

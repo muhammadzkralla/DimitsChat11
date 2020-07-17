@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
         user_img = (ImageView)findViewById(R.id.user_img);
         UploadDialog = new SpotsDialog.Builder().setContext(this).setCancelable(false).build();
         //check if the user have an image or not
-        if (Common.currentUser.getImg() == "Default"){
+        if (Common.currentUser.getImg().equals("Default")){
             //if not put a default image for them
             Glide.with(this).load(R.drawable.ic_person_black_24dp).into(user_img);
         }else{

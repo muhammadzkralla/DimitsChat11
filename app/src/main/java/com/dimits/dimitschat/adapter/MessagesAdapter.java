@@ -51,7 +51,7 @@ public class MessagesAdapter extends  RecyclerView.Adapter<MessagesAdapter.MyVie
     public void onBindViewHolder(@NonNull MyViewHodler holder, int position) {
             ChatModel chatModel = chatModels.get(position);
             holder.txt_message.setText(chatModel.getMessage());
-            if (imageurl == "Default"){
+            if (imageurl.equals("Default")){
                 Glide.with(context).load(R.drawable.ic_person_black_24dp).into(holder.receiver_img);
             }else{
                 Glide.with(context).load(imageurl).into(holder.receiver_img);

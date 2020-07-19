@@ -1,4 +1,4 @@
-package com.dimits.dimitschat.ui.main.tabstuff;
+package com.dimits.dimitschat.adapter;
 
 import android.content.Context;
 
@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.dimits.dimitschat.R;
 import com.dimits.dimitschat.ui.main.chats.ChatsFragment;
 import com.dimits.dimitschat.ui.main.global.GlobalFragment;
-import com.dimits.dimitschat.ui.main.tabstuff.PlaceholderFragment;
 import com.dimits.dimitschat.ui.main.users.UsersFragment;
 
 /**

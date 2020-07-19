@@ -76,7 +76,10 @@ public class MessagesActivity extends AppCompatActivity {
                 //getting the message
                 MESSAGE = edt_message.getText().toString();
                 //send the message
-                sendMessage(SENDER,RECEIVER,MESSAGE);
+                if (!MESSAGE.isEmpty())
+                    sendMessage(SENDER,RECEIVER,MESSAGE);
+                else
+                    Toast.makeText(MessagesActivity.this, "Empty Message !", Toast.LENGTH_SHORT).show();
                 //reset the edit text
                 edt_message.setText("");
             }

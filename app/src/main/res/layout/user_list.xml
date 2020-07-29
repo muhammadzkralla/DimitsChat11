@@ -6,6 +6,7 @@
     android:layout_margin="10dp">
 
     <TextView
+        android:textColor="#E5E7E9"
         android:layout_marginTop="6dp"
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
@@ -28,6 +29,7 @@
         android:layout_marginRight="8dp"/>
 
     <TextView
+        android:textColor="#E5E7E9"
         android:id="@+id/user_phon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

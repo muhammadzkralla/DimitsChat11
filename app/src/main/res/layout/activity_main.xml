@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:background="@color/colorPrimary"
     tools:context=".MainActivity">
 
     <TextView
@@ -16,11 +16,12 @@
         android:layout_weight="1"
         android:fontFamily="sans-serif-light"
         android:text="Dimits Chat"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="40sp"
         android:textStyle="bold" />
 
     <TextView
+        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/main"

@@ -76,7 +76,10 @@ public class globalActivity extends AppCompatActivity {
                 //getting the message
                 MESSAGE = edt_message.getText().toString();
                 //send the message
-                sendMessage(SENDER,Common.currentUser.getImg(),MESSAGE);
+                if (!MESSAGE.isEmpty())
+                        sendMessage(SENDER,Common.currentUser.getImg(),MESSAGE);
+                else
+                    sendMessage(SENDER,Common.currentUser.getImg(),"👍");
                 //reset the edit text
                 edt_message.setText("");
             }

@@ -13,7 +13,6 @@
         android:theme="@style/AppTheme.AppBarOverlay">
 
 
-
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/app_bar"
@@ -28,6 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
         <EditText
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
             android:id="@+id/edt_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

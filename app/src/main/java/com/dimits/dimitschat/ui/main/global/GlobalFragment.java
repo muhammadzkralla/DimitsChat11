@@ -12,12 +12,14 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dimits.dimitschat.ExampleService;
 import com.dimits.dimitschat.MessagesActivity;
 import com.dimits.dimitschat.R;
 import com.dimits.dimitschat.adapter.GlobalAdapter;
@@ -47,6 +49,8 @@ public class GlobalFragment extends Fragment{
     private Unbinder unbinder;
     RecyclerView recyclerView;
     Button intent;
+    Button service;
+    Button serviceOff;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -60,6 +64,25 @@ public class GlobalFragment extends Fragment{
                 startActivity(global);
             }
         });
+
+        service = (Button)root.findViewById(R.id.service);
+        service.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent serviceIntent = new Intent(getActivity(), ExampleService.class);
+                ContextCompat.startForegroundService(getContext(), serviceIntent);
+            }
+        });
+
+        serviceOff = (Button)root.findViewById(R.id.serviceOff);
+        serviceOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent serviceIntent = new Intent(getActivity(), ExampleService.class);
+                getActivity().stopService(serviceIntent);
+            }
+        });
+
 
 
 

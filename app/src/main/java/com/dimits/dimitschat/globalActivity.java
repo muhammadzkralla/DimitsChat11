@@ -2,15 +2,18 @@ package com.dimits.dimitschat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.dimits.dimitschat.adapter.GlobalAdapter;
@@ -85,6 +88,9 @@ public class globalActivity extends AppCompatActivity {
 
 
 
+
+
+
     private void sendMessage(String sender,String image,String message) {
         //initializing the Message object
         Map<String, Object> messageData = new HashMap<>();
@@ -95,6 +101,18 @@ public class globalActivity extends AppCompatActivity {
         submitMessageToFireBase(messageData);
 
     }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (item.getTitle().equals(Common.DELETE)){
+           // GlobalChatModel globalChatModel = messagesAdapter.getItemAtposition();
+           // deletefromfirebase(globalChatModel);
+           Toast.makeText(globalActivity.this,"deleted",Toast.LENGTH_SHORT).show();
+        }
+        return super.onContextItemSelected(item);
+    }
+
+
 
     private void submitMessageToFireBase(Map<String, Object> message) {
         //push data assigned to the DataBase

@@ -1,15 +1,20 @@
 package com.dimits.dimitschat;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,11 +27,18 @@ import com.dimits.dimitschat.common.Common;
 import com.dimits.dimitschat.model.ChatModel;
 import com.dimits.dimitschat.model.GlobalChatModel;
 import com.dimits.dimitschat.model.UserModel;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,14 +48,18 @@ import java.util.Map;
 public class globalActivity extends AppCompatActivity {
     //initializing variables
 
+    int INTENT_CODE = 5;
+    private  Uri imageurl ;
+    private StorageTask uploadTask;
     EditText edt_message;
-    ImageView send_btn;
+    ImageView send_btn,send_image;
     Intent intent;
     UserModel otherUsers;
     String SENDER;
     String RECEIVER;
     String MESSAGE;
     private DatabaseReference ref;
+    private StorageReference reference1;
     private DatabaseReference reference;
     GlobalAdapter messagesAdapter;
     List<GlobalChatModel> mChat;
@@ -65,11 +81,13 @@ public class globalActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_messages);
         edt_message = (EditText)findViewById(R.id.edt_message);
         send_btn = (ImageView)findViewById(R.id.send_btn);
+        send_image = (ImageView)findViewById(R.id.send_image);
         //set send message click listener and some assigning
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+        reference1 = FirebaseStorage.getInstance().getReference("uploads");
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,17 +102,102 @@ public class globalActivity extends AppCompatActivity {
                 edt_message.setText("");
             }
         });
+
+        send_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent,INTENT_CODE);
+            }
+        });
+
+
         //getting started to get the second user's data form the firebase
         downloadMessages();
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == INTENT_CODE && resultCode == RESULT_OK){
+            imageurl = data.getData();
+            uploadimage();
+        }else {
+            Toast.makeText(globalActivity.this,"something went wrong",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getFileExtention(Uri uri){
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private void uploadimage() {
+        ProgressDialog pd = new ProgressDialog(this);
+        pd.setMessage("Uploading");
+        pd.show();
+
+        if (imageurl != null){
+            StorageReference reference = reference1.child(System.currentTimeMillis()
+                    + "."+ getFileExtention(imageurl));
+
+            uploadTask = reference.putFile(imageurl);
+            uploadTask.continueWithTask(new Continuation() {
+                @Override
+                public Object then(@NonNull Task task) throws Exception {
+                    if (!task.isSuccessful()){
+                        throw task.getException();
+                    }
+                    return reference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()){
+                        Uri downloadUri = (Uri) task.getResult();
+                        String myUri = downloadUri.toString();
+
+                        /**DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("GlobalChats");
+                        String commentid = reference1.push().getKey();
+                        HashMap<String,Object> hashMap = new HashMap<>();
+                        reference1.child(commentid).setValue(hashMap);**/
+
+                        sendMessage1(SENDER,Common.currentUser.getImg(),myUri);
 
 
+                        pd.dismiss();
+                    }else {
+                        Toast.makeText(globalActivity.this,"Failed",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(globalActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else {
+            Toast.makeText(globalActivity.this,"no image selected ",Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    private void sendMessage1(String sender, String img, String myUri) {
+        //initializing the Message object
+        Map<String, Object> messageData = new HashMap<>();
+        messageData.put("sender", sender);
+        messageData.put("img", img);
+        messageData.put("message", null);
+        messageData.put("imageurl",myUri);
+        //push the message object to the Database
+        submitMessageToFireBase(messageData);
 
+    }
 
-    private void sendMessage(String sender,String image,String message) {
+    private void sendMessage(String sender, String image, String message) {
         //initializing the Message object
         Map<String, Object> messageData = new HashMap<>();
         messageData.put("sender", sender);
@@ -140,6 +243,7 @@ public class globalActivity extends AppCompatActivity {
                         recyclerView.setAdapter(messagesAdapter);
                     }
                 }
+                messagesAdapter.notifyDataSetChanged();
             }
 
             @Override

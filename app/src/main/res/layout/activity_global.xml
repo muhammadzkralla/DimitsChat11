@@ -40,8 +40,16 @@
             android:id="@+id/send_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/send_image"
             android:src="@drawable/ic_send_black_24dp" />
+
+        <ImageView
+            android:id="@+id/send_image"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:src="@android:color/darker_gray" />
 
     </RelativeLayout>
 

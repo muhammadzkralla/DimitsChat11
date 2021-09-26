@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHodler> {
 
+    private String imageurl;
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
     private List<GlobalChatModel> chatModels = new ArrayList<>();
@@ -49,12 +51,31 @@ public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHod
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHodler holder, int position) {
-        holder.txt_message.setText(chatModels.get(position).getMessage());
+
+        GlobalChatModel globalChatModel = chatModels.get(position);
+        imageurl = globalChatModel.getImageurl();
+
+
+        holder.txt_message.setText(globalChatModel.getMessage());
+
+       if (globalChatModel.getImageurl() == null){
+           holder.image_message.setVisibility(View.GONE);
+       }else {
+           Glide.with(context).load(imageurl).into(holder.image_message);
+
+       }
         //put every single image in the chat item for its sender
         if (chatModels.get(position).getImg().equals("Default"))
             Glide.with(context).load(R.drawable.ic_person_black_24dp).into(holder.receiver_img);
         else
             Glide.with(context).load(chatModels.get(position).getImg()).into(holder.receiver_img);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
@@ -71,13 +92,15 @@ public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHod
 
     public class MyViewHodler extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
         TextView txt_message;
-        ImageView receiver_img;
+        ImageView receiver_img , image_message;
 
 
         public MyViewHodler(@NonNull View itemView) {
             super(itemView);
             txt_message = itemView.findViewById(R.id.txt_message);
             receiver_img = itemView.findViewById(R.id.receiver_img);
+            image_message = itemView.findViewById(R.id.image_message);
+
             itemView.setOnCreateContextMenuListener( this);
             itemView.setOnClickListener(this);
         }

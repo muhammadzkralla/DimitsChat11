@@ -62,6 +62,7 @@ public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHod
            holder.image_message.setVisibility(View.GONE);
        }else {
            Glide.with(context).load(imageurl).into(holder.image_message);
+           holder.image_message.setVisibility(View.VISIBLE);
 
        }
         //put every single image in the chat item for its sender

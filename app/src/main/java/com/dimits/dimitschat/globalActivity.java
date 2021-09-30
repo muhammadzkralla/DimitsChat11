@@ -3,7 +3,6 @@ package com.dimits.dimitschat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,16 +17,15 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.dimits.dimitschat.adapter.GlobalAdapter;
-import com.dimits.dimitschat.adapter.MessagesAdapter;
 import com.dimits.dimitschat.common.Common;
-import com.dimits.dimitschat.model.ChatModel;
+import com.dimits.dimitschat.common.CommonAgr;
+import com.dimits.dimitschat.model.FCMService.FCMSendData;
 import com.dimits.dimitschat.model.GlobalChatModel;
 import com.dimits.dimitschat.model.UserModel;
+import com.dimits.dimitschat.remote.IFCMService;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -47,10 +45,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+import rx.android.schedulers.AndroidSchedulers;
+
 public class globalActivity extends AppCompatActivity {
     //initializing variables
 
     int INTENT_CODE = 5;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    IFCMService ifcmService;
     private  Uri imageurl ;
     private StorageTask uploadTask;
     private EmojiRainLayout emojiRainLayout;

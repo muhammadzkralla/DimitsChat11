@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.dimits.dimitschat.adapter.SectionsPagerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -58,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         //assign the variables
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        updateToken();
         title = (TextView)findViewById(R.id.title);
         user_img = (ImageView)findViewById(R.id.user_img);
         UploadDialog = new SpotsDialog.Builder().setContext(this).setCancelable(false).build();
@@ -93,6 +95,16 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void updateToken(){
+        FirebaseInstanceId.getInstance()
+                .getInstanceId().addOnFailureListener(e -> Toast.makeText(HomeActivity.this,""+e.getMessage(),Toast.LENGTH_SHORT).show())
+                .addOnSuccessListener(instanceIdResult -> {
+                    Common.updateToken(HomeActivity.this,instanceIdResult.getToken());
+                });
+    }
+
 
     private void showImageDialog() {
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);

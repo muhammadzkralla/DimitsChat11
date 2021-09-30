@@ -118,7 +118,7 @@ public class globalActivity extends AppCompatActivity {
                     emojiRainLayout.setDropFrequency(500);
                     emojiRainLayout.startDropping();
                     //reset the edit text
-                    //edt_message.setText("");
+                    edt_message.setText("");
                 }
             }
         });

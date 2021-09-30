@@ -25,7 +25,7 @@ import java.util.List;
 
 public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHodler> {
 
-    private  String  imageurl = "";
+    private String imageurl;
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
     private List<GlobalChatModel> chatModels = new ArrayList<>();
@@ -62,7 +62,7 @@ public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHod
            holder.image_message.setVisibility(View.GONE);
        }else {
            Glide.with(context).load(imageurl).into(holder.image_message);
-           holder.image_message.setVisibility(View.VISIBLE);
+
        }
         //put every single image in the chat item for its sender
         if (chatModels.get(position).getImg().equals("Default"))

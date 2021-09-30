@@ -68,5 +68,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
     //Circular ImageView
     implementation 'de.hdodenhof:circleimageview:3.0.2'
+
+    // library for emojin rain
+
+    implementation 'com.luolc:emoji-rain:0.1.1'
 }
 apply plugin: 'com.google.gms.google-services'

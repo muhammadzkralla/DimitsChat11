@@ -1,8 +1,9 @@
-<RelativeLayout
+<com.luolc.emojirain.EmojiRainLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/activity_main"
     tools:context=".MessagesActivity"
     android:background="#283747">
 
@@ -17,6 +18,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/app_bar"
         android:layout_above="@+id/relative"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="40dp"
         android:id="@+id/recycler_messages"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
@@ -25,15 +28,7 @@
         android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-        <EditText
-            android:textColorHint="@android:color/white"
-            android:textColor="@android:color/white"
-            android:id="@+id/edt_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/send_btn"
-            android:hint="Type your message..."/>
+        android:layout_gravity="bottom">
 
         <ImageView
             android:layout_centerInParent="true"
@@ -53,5 +48,14 @@
 
     </RelativeLayout>
 
+    <EditText
+        android:id="@+id/edt_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Type your message..."
+        android:layout_gravity="bottom"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white" />
 
-</RelativeLayout>
+
+</com.luolc.emojirain.EmojiRainLayout>

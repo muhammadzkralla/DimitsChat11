@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -39,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.luolc.emojirain.EmojiRainLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,6 +53,7 @@ public class globalActivity extends AppCompatActivity {
     int INTENT_CODE = 5;
     private  Uri imageurl ;
     private StorageTask uploadTask;
+    private EmojiRainLayout emojiRainLayout;
     EditText edt_message;
     ImageView send_btn,send_image;
     Intent intent;
@@ -65,6 +68,7 @@ public class globalActivity extends AppCompatActivity {
     List<GlobalChatModel> mChat;
     RecyclerView recyclerView;
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +82,7 @@ public class globalActivity extends AppCompatActivity {
         //initialize the receiver
         RECEIVER = SECOND_USER_ID;
         //assigning variables
+        emojiRainLayout = (EmojiRainLayout)findViewById(R.id.activity_main);
         recyclerView = findViewById(R.id.recycler_messages);
         edt_message = (EditText)findViewById(R.id.edt_message);
         send_btn = (ImageView)findViewById(R.id.send_btn);
@@ -94,12 +99,27 @@ public class globalActivity extends AppCompatActivity {
                 //getting the message
                 MESSAGE = edt_message.getText().toString();
                 //send the message
-                if (!MESSAGE.isEmpty())
-                        sendMessage(SENDER,Common.currentUser.getImg(),MESSAGE);
-                else
+                if (!MESSAGE.isEmpty()){
+                        sendMessage(SENDER,Common.currentUser.getImg(),MESSAGE);}
+                else {
                     sendMessage(SENDER,Common.currentUser.getImg(),"👍");
-                //reset the edit text
-                edt_message.setText("");
+//                    emojiRainLayout.addEmoji(R.drawable.emoji_1_3);
+//                    emojiRainLayout.addEmoji(R.drawable.emoji_2_3);
+//                    emojiRainLayout.addEmoji(R.drawable.emoji_3_3);
+//                    emojiRainLayout.addEmoji(R.drawable.emoji_4_3);
+//                    emojiRainLayout.addEmoji(R.drawable.emoji_5_3);
+
+                    emojiRainLayout.addEmoji(R.drawable.fui_ic_twitter_bird_white_24dp);
+
+                    emojiRainLayout.stopDropping();
+                    emojiRainLayout.setPer(10);
+                    emojiRainLayout.setDuration(7200);
+                    emojiRainLayout.setDropDuration(2400);
+                    emojiRainLayout.setDropFrequency(500);
+                    emojiRainLayout.startDropping();
+                    //reset the edit text
+                    //edt_message.setText("");
+                }
             }
         });
 

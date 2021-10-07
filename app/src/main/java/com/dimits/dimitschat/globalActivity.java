@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.dimits.dimitschat.adapter.GlobalAdapter;
 import com.dimits.dimitschat.common.Common;
 import com.dimits.dimitschat.common.CommonAgr;
-import com.dimits.dimitschat.model.FCMService.FCMSendData;
 import com.dimits.dimitschat.model.GlobalChatModel;
 import com.dimits.dimitschat.model.UserModel;
 import com.dimits.dimitschat.remote.IFCMService;

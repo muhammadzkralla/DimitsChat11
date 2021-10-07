@@ -1,15 +1,14 @@
-package com.dimits.dimitschat.model.FCMService;
+package com.dimits.dimitschat.model;
 
 import java.util.List;
 
-public class FCMResponce {
+public class FCMResponse {
     private long multicast_id;
-    private int success,failure,canonical_ids;
-    private List<FCMResult> result;
+    private int success, failure, canonical_ids;
+    private List<FCMResult> results;
     private long message_id;
 
-
-    public FCMResponce() {
+    public FCMResponse() {
     }
 
     public long getMulticast_id() {
@@ -44,12 +43,12 @@ public class FCMResponce {
         this.canonical_ids = canonical_ids;
     }
 
-    public List<FCMResult> getResult() {
-        return result;
+    public List<FCMResult> getResults() {
+        return results;
     }
 
-    public void setResult(List<FCMResult> result) {
-        this.result = result;
+    public void setResults(List<FCMResult> results) {
+        this.results = results;
     }
 
     public long getMessage_id() {

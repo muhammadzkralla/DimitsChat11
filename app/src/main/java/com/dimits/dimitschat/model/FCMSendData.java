@@ -1,12 +1,10 @@
-package com.dimits.dimitschat.model.FCMService;
-
+package com.dimits.dimitschat.model;
 
 import java.util.Map;
 
 public class FCMSendData {
     private String to;
-    private Map<String,String> data;
-
+    private Map<String, String> data;
 
     public FCMSendData() {
     }
@@ -16,8 +14,6 @@ public class FCMSendData {
         this.data = data;
     }
 
-
-
     public String getTo() {
         return to;
     }
@@ -25,7 +21,6 @@ public class FCMSendData {
     public void setTo(String to) {
         this.to = to;
     }
-
 
     public Map<String, String> getData() {
         return data;

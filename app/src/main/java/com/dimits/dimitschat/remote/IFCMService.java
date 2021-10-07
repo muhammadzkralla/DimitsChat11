@@ -1,7 +1,7 @@
 package com.dimits.dimitschat.remote;
 
-import com.dimits.dimitschat.model.FCMService.FCMResponce;
-import com.dimits.dimitschat.model.FCMService.FCMSendData;
+import com.dimits.dimitschat.model.FCMResponse;
+import com.dimits.dimitschat.model.FCMSendData;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -14,5 +14,5 @@ public interface IFCMService {
             "Authorization:key=AAAAiCt0EuA:APA91bE5IBVoCVLwomGDFu3fdZvdJQHTUgK4apIZHOJ1cgtSA2_dzAvfgyTNYbWTYGSft0UMZC9bV09o6S36IUm7MbcodAGmKu1AQUqasItlOHLjxP0g0JQMYnkWwmIp8UhplBuJ_yaA"
     })
     @POST("fcm/send")
-    Observable<FCMResponce> sendNotification(@Body FCMSendData body);
+    Observable<FCMResponse> sendNotification(@Body FCMSendData body);
 }

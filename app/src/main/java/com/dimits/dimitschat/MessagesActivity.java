@@ -17,8 +17,15 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.dimits.dimitschat.adapter.MessagesAdapter;
 import com.dimits.dimitschat.common.Common;
+import com.dimits.dimitschat.common.CommonAgr;
 import com.dimits.dimitschat.model.ChatModel;
+import com.dimits.dimitschat.model.FCMResponse;
+import com.dimits.dimitschat.model.FCMSendData;
+import com.dimits.dimitschat.model.TokenModel;
 import com.dimits.dimitschat.model.UserModel;
+import com.dimits.dimitschat.remote.IFCMService;
+import com.dimits.dimitschat.remote.RetrofitFCMClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,8 +37,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 public class MessagesActivity extends AppCompatActivity {
     //initializing variables
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+    IFCMService ifcmService;
     TextView sec_user;
     ImageView sec_img;
     EditText edt_message;
@@ -51,6 +65,7 @@ public class MessagesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages);
+        ifcmService = RetrofitFCMClient.getInstance().create(IFCMService.class);
         //getting the intent from the UsersAdapter
         intent = getIntent();
         //assigning the uid of the user clicked on from the extra string of the intent
@@ -96,14 +111,50 @@ public class MessagesActivity extends AppCompatActivity {
         messageData.put("receiver", receiver);
         messageData.put("message", message);
         //push the message object to the Database
-        submitMessageToFireBase(messageData);
+        submitMessageToFireBase(messageData, RECEIVER, message);
 
     }
 
-    private void submitMessageToFireBase(Map<String, Object> message) {
+    private void submitMessageToFireBase(Map<String, Object> message, String secondUser, String content) {
         //push data assigned to the DataBase
         DatabaseReference chatRef = FirebaseDatabase.getInstance().getReference();
-        chatRef.child("Chats").push().setValue(message);
+        chatRef.child("Chats").push().setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                FirebaseDatabase.getInstance().getReference("Tokens").child(secondUser).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            TokenModel tokenModel = dataSnapshot.getValue(TokenModel.class);
+                            Map<String, String> notiData = new HashMap<>();
+                            notiData.put(CommonAgr.NOTI_TITLE, Common.currentUser.getName());
+                            notiData.put(CommonAgr.NOTI_CONTENT, content);
+
+                            FCMSendData sendData = new FCMSendData(tokenModel.getToken(), notiData);
+
+                            compositeDisposable.add(
+                                    ifcmService.sendNotification(sendData)
+                                    .subscribeOn(Schedulers.newThread())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(fcmResponse -> {
+
+                                    }, throwable -> {
+                                        Toast.makeText(MessagesActivity.this, "" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    })
+
+                            );
+                            Toast.makeText(MessagesActivity.this, "Notification Sent to" + tokenModel.getPhone() + " ,Token : " + tokenModel.getToken(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+        });
 
     }
 
@@ -157,4 +208,9 @@ public class MessagesActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
+    }
 }

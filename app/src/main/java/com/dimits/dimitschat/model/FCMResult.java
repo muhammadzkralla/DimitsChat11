@@ -1,10 +1,9 @@
-package com.dimits.dimitschat.model.FCMService;
+package com.dimits.dimitschat.model;
 
 public class FCMResult {
     private String message_id;
 
-    public FCMResult(String message_id) {
-        this.message_id = message_id;
+    public FCMResult() {
     }
 
     public String getMessage_id() {
@@ -13,8 +12,5 @@ public class FCMResult {
 
     public void setMessage_id(String message_id) {
         this.message_id = message_id;
-    }
-
-    public FCMResult() {
     }
 }

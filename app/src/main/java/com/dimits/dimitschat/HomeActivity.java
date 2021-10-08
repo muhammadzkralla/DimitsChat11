@@ -115,6 +115,12 @@ public class HomeActivity extends AppCompatActivity {
         status("offline");
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+    }
+
     private void status (String status){
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(Common.currentUser.getUid());

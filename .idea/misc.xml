@@ -4,9 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/activity_global.xml" value="0.264" />
+        <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/activity_home.xml" value="0.17300724637681159" />
         <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/chat_item_from_left.xml" value="0.2105978260869565" />
         <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/chat_item_from_right.xml" value="0.2" />
+        <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/chats_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/fragment_global.xml" value="0.12183383991894631" />
+        <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/user_list.xml" value="0.6" />
+        <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/users_fragment.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>

@@ -44,9 +44,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import rx.android.schedulers.AndroidSchedulers;
 
 public class globalActivity extends AppCompatActivity {
     //initializing variables
@@ -103,9 +103,12 @@ public class globalActivity extends AppCompatActivity {
                 MESSAGE = edt_message.getText().toString();
                 //send the message
                 if (!MESSAGE.isEmpty()){
-                        sendMessage(SENDER,Common.currentUser.getImg(),MESSAGE);}
+                        sendMessage(SENDER,Common.currentUser.getImg(),MESSAGE);
+                }
+
                 else {
                     sendMessage(SENDER,Common.currentUser.getImg(),"👍");
+
 //                    emojiRainLayout.addEmoji(R.drawable.emoji_1_3);
 //                    emojiRainLayout.addEmoji(R.drawable.emoji_2_3);
 //                    emojiRainLayout.addEmoji(R.drawable.emoji_3_3);
@@ -274,6 +277,12 @@ public class globalActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
     }
 
 }

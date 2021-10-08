@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
 import com.dimits.dimitschat.common.Common;
+import com.dimits.dimitschat.model.UserModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -29,7 +30,11 @@ import android.widget.Toast;
 
 import com.dimits.dimitschat.adapter.SectionsPagerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -38,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import dmax.dialog.SpotsDialog;
 
 public class HomeActivity extends AppCompatActivity {
@@ -49,7 +55,7 @@ public class HomeActivity extends AppCompatActivity {
     AlertDialog UploadDialog;
     FirebaseStorage storage;
     StorageReference storageReference;
-    ImageView btn_image;
+    ImageView btn_image,statusCircle;
 
 
     @Override
@@ -94,7 +100,30 @@ public class HomeActivity extends AppCompatActivity {
                 signOut();
             }
         });
+        statusCircle = findViewById(R.id.status);
+
+
+
+        status("online");
+
+
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
+    }
+
+    private void status (String status){
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(Common.currentUser.getUid());
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("status",status);
+        reference.updateChildren(hashMap);
+    }
+
+
 
 
     private void updateToken(){

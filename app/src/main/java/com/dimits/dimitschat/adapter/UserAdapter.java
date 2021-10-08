@@ -15,10 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.dimits.dimitschat.MessagesActivity;
 import com.dimits.dimitschat.R;
+import com.dimits.dimitschat.common.Common;
 import com.dimits.dimitschat.model.UserModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.MyViewHodler> {
     private List<UserModel> userModels = new ArrayList<>();
@@ -55,6 +58,13 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.MyViewHodler>
             }
         });
 
+        if(userModels.get(position).getStatus() != null){
+            if(userModels.get(position).getStatus().equals("online")){
+                holder.statusCircle.setVisibility(View.VISIBLE);
+            }
+        }
+
+
     }
 
     @Override
@@ -71,11 +81,13 @@ public class UserAdapter extends  RecyclerView.Adapter<UserAdapter.MyViewHodler>
         TextView username;
         ImageView userimage;
         TextView userphon;
+        ImageView statusCircle;
         public MyViewHodler(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.user_name);
             userimage = itemView.findViewById(R.id.user_image);
             userphon = itemView.findViewById(R.id.user_phon);
+            statusCircle = itemView.findViewById(R.id.status);
         }
     }
 }

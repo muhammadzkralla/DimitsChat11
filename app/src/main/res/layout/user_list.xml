@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp">
 
     <TextView
@@ -14,19 +14,42 @@
         android:layout_gravity="center"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="6dp"
-        android:layout_toRightOf="@+id/user_image"
+        android:layout_toRightOf="@+id/relative"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="user"
         android:textSize="15dp" />
+    
+    
+    <RelativeLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:id="@+id/relative">
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:src="@drawable/ic_person_black_24dp"
+        android:id="@+id/user_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:id="@+id/user_image"
-        android:layout_marginRight="8dp"/>
+        android:layout_marginRight="8dp"
+        android:src="@drawable/ic_person_black_24dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/status"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"
+            android:src="@drawable/ic_online"
+            android:layout_alignParentBottom="true" />
+
+
+
+    </RelativeLayout>
+
+
 
     <TextView
         android:textColor="#E5E7E9"
@@ -35,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_name"
         android:layout_marginRight="8dp"
-        android:layout_toRightOf="@+id/user_image"
+        android:layout_toRightOf="@+id/relative"
         android:fontFamily="sans-serif-light"
         android:text="+201010149602" />
 

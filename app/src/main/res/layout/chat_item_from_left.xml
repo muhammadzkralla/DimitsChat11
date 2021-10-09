@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:padding="6dp"
         android:layout_margin="4dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/relative">
 
         <TextView
             android:textStyle="bold"
@@ -33,6 +34,14 @@
             android:layout_height="200dp"
             android:id="@+id/image_message"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/messageTime"
+        android:layout_width="81dp"
+        android:layout_height="66dp"
+        android:text="No Time Is Recorded"
+        android:layout_toRightOf="@+id/relative"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

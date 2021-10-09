@@ -36,10 +36,17 @@
 
 
         <ImageView
+            android:id="@+id/image_message"
             android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:id="@+id/image_message"/>
+            android:layout_height="200dp" />
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/messageTime"
+        android:layout_width="81dp"
+        android:layout_height="66dp"
+        android:text="TextView"
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.dimits.dimitschat.adapter;
 import android.content.Context;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -57,6 +58,25 @@ public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHod
 
 
         holder.txt_message.setText(globalChatModel.getMessage());
+        holder.txt_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(holder.txt_time.getVisibility() == View.VISIBLE){
+                holder.txt_time.setVisibility(View.GONE);}
+                else {
+                    holder.txt_time.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+
+
+        if(globalChatModel.getTime() == null){
+            // do nothing
+        }else {
+            holder.txt_time.setText(String.valueOf(globalChatModel.getTime()));
+        }
 
        if (globalChatModel.getImageurl() == null){
            holder.image_message.setVisibility(View.GONE);
@@ -94,6 +114,7 @@ public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHod
     public class MyViewHodler extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
         TextView txt_message;
         ImageView receiver_img , image_message;
+        TextView txt_time;
 
 
         public MyViewHodler(@NonNull View itemView) {
@@ -101,6 +122,7 @@ public class GlobalAdapter extends  RecyclerView.Adapter<GlobalAdapter.MyViewHod
             txt_message = itemView.findViewById(R.id.txt_message);
             receiver_img = itemView.findViewById(R.id.receiver_img);
             image_message = itemView.findViewById(R.id.image_message);
+            txt_time = itemView.findViewById(R.id.messageTime);
 
             itemView.setOnCreateContextMenuListener( this);
             itemView.setOnClickListener(this);

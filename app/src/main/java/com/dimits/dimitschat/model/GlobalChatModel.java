@@ -5,8 +5,17 @@ public class GlobalChatModel {
     private String sender;
     private String img;
     private String imageurl;
+    private String time;
 
     public GlobalChatModel() {
+    }
+
+    public GlobalChatModel(String message, String sender, String img, String imageurl, String time) {
+        this.message = message;
+        this.sender = sender;
+        this.img = img;
+        this.imageurl = imageurl;
+        this.time = time;
     }
 
     public GlobalChatModel(String message, String sender, String img, String imageurl) {
@@ -52,5 +61,13 @@ public class GlobalChatModel {
 
     public void setImageurl(String imageurl) {
         this.imageurl = imageurl;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

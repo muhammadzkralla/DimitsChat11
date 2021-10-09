@@ -39,6 +39,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.luolc.emojirain.EmojiRainLayout;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -104,6 +105,8 @@ public class globalActivity extends AppCompatActivity {
                 //send the message
                 if (!MESSAGE.isEmpty()){
                         sendMessage(SENDER,Common.currentUser.getImg(),MESSAGE);
+                    //reset the edit text
+                    edt_message.setText("");
                 }
 
                 else {
@@ -229,6 +232,7 @@ public class globalActivity extends AppCompatActivity {
         messageData.put("sender", sender);
         messageData.put("img", image);
         messageData.put("message", message);
+        messageData.put("time",String.valueOf(DateFormat.getInstance().format(System.currentTimeMillis())));
         //push the message object to the Database
         submitMessageToFireBase(messageData);
 

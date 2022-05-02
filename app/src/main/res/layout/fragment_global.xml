@@ -12,20 +12,5 @@
         android:id="@+id/intent"
         android:text="click"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="startService"
-        android:id="@+id/service"
-        android:text="Start Service"
-        android:layout_below="@id/intent"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="stopService"
-        android:text="Stop Service"
-        android:id="@+id/serviceOff"
-        android:layout_below="@id/service"/>
 
 </RelativeLayout>

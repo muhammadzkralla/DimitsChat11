@@ -12,5 +12,18 @@
         android:id="@+id/intent"
         android:text="click"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notifications_on"
+        android:text="Notifications On"
+        android:layout_below="@+id/intent"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/notifications_off"
+        android:text="Notifications Off"
+        android:layout_below="@+id/notifications_on"/>
 
 </RelativeLayout>

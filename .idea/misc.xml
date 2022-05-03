@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android Projects/DimitsChat11/app/src/main/res/layout/fragment_global.xml" value="0.10645812310797174" />
+        <entry key="..\:/Android Projects/DimitsChat11/app/src/main/res/layout/activity_global.xml" value="0.11820652173913043" />
+        <entry key="..\:/Android Projects/DimitsChat11/app/src/main/res/layout/activity_main.xml" value="0.11820652173913043" />
+        <entry key="..\:/Android Projects/DimitsChat11/app/src/main/res/layout/activity_messages.xml" value="0.21979166666666666" />
+        <entry key="..\:/Android Projects/DimitsChat11/app/src/main/res/layout/fragment_global.xml" value="0.16" />
         <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/activity_global.xml" value="0.264" />
         <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/activity_home.xml" value="0.17300724637681159" />
         <entry key="..\:/AndroidStudioProjects/DimitsChat11/app/src/main/res/layout/chat_item_from_left.xml" value="0.264" />

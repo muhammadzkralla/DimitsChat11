@@ -78,17 +78,10 @@ public class Common {
         FirebaseDatabase.getInstance()
                 .getReference("Tokens")
                 .child(Common.currentUser.getUid())
-                .setValue(new TokenModel(Common.currentUser.getPhone(), newToken))
+                .setValue(new TokenModel(Common.currentUser.getPhone(), newToken,"1"))
                 .addOnFailureListener(e -> {
                     Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
-    public static String createTopic(){
-        return new StringBuilder("/topics/")
-                .append(Common.currentUser.getUid())
-                .append("_")
-                .append("new_order")
-                .toString();
-    }
 }

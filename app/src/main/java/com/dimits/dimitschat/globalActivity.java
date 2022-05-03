@@ -227,7 +227,7 @@ public class globalActivity extends AppCompatActivity {
         messageData.put("message", null);
         messageData.put("imageurl",myUri);
         //push the message object to the Database
-        submitMessageToFireBase(messageData,"Image");
+        submitMessageToFireBase(messageData,"Sent An Image");
 
     }
 
@@ -266,29 +266,32 @@ public class globalActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()){
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                if (!snapshot.toString().equals(Common.currentUser.getUid())){
+                                if (!snapshot.getKey().equals(Common.currentUser.getUid())){
                                     TokenModel model = snapshot.getValue(TokenModel.class);
-                                    Map<String, String> notiData = new HashMap<>();
-                                    notiData.put(CommonAgr.NOTI_TITLE, Common.currentUser.getName());
-                                    notiData.put(CommonAgr.NOTI_CONTENT, content);
+                                    if (model.getStatus().equals("1")) {
+                                        Map<String, String> notiData = new HashMap<>();
+                                        notiData.put(CommonAgr.NOTI_TITLE, Common.currentUser.getName());
+                                        notiData.put(CommonAgr.NOTI_CONTENT, content);
 
-                                    FCMSendData sendData = new FCMSendData(model.getToken(), notiData);
+                                        FCMSendData sendData = new FCMSendData(model.getToken(), notiData);
 
-                                    compositeDisposable.add(
-                                            ifcmService.sendNotification(sendData)
-                                                    .subscribeOn(Schedulers.newThread())
-                                                    .observeOn(AndroidSchedulers.mainThread())
-                                                    .subscribe(fcmResponse -> {
+                                        compositeDisposable.add(
+                                                ifcmService.sendNotification(sendData)
+                                                        .subscribeOn(Schedulers.newThread())
+                                                        .observeOn(AndroidSchedulers.mainThread())
+                                                        .subscribe(fcmResponse -> {
 
-                                                    }, throwable -> {
-                                                        Toast.makeText(globalActivity.this, "" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        }, throwable -> {
+                                                            Toast.makeText(globalActivity.this, "" + throwable.getMessage(), Toast.LENGTH_SHORT).show();
 
-                                                    })
+                                                        })
 
-                                    );
-                                    Toast.makeText(globalActivity.this, "Notification Sent to"
-                                            + model.getPhone()
-                                            , Toast.LENGTH_SHORT).show();
+                                        );
+                                        Toast.makeText(globalActivity.this, "Notification Sent to"
+                                                        + model.getPhone()
+                                                , Toast.LENGTH_SHORT).show();
+
+                                    }
                                 }
                             }
                         }

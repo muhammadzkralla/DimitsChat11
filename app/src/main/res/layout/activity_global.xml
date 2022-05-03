@@ -44,18 +44,21 @@
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
-            android:src="@android:color/darker_gray" />
+            android:src="@drawable/ic_image" />
+
+        <EditText
+            android:layout_toLeftOf="@+id/send_btn"
+            android:id="@+id/edt_message"
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:hint="Type your message..."
+            android:layout_gravity="bottom"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white" />
 
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/edt_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Type your message..."
-        android:layout_gravity="bottom"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white" />
+
 
 
 </com.luolc.emojirain.EmojiRainLayout>
